@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">PedraPapelTesoura</string>
+    <string-array name="jogadas">
+        <item>Pedra</item>
+        <item>Papel</item>
+        <item>Tesoura</item>
+    </string-array>
+
+    <string-array name="num_jogadores">
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+
+</resources>
