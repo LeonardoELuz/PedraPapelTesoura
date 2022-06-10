@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "653380471807",
+    "firebase_url": "https://jokenpopdm-default-rtdb.firebaseio.com",
+    "project_id": "jokenpopdm",
+    "storage_bucket": "jokenpopdm.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:653380471807:android:c1a3c0970123a5a6a635ca",
+        "android_client_info": {
+          "package_name": "br.edu.ifsp.scl.ads.pdm.pedrapapeltesoura"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "653380471807-55eli80g4m02rq9r07lbhrscr3a0fat0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.edu.ifsp.scl.ads.pdm.pedrapapeltesoura",
+            "certificate_hash": "53e3011d1e8c577910193b8a9ea0c99df79c3ed3"
+          }
+        },
+        {
+          "client_id": "653380471807-eksntdpjl877eg736kid9qhf8easbcan.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLyFPvQmh7gNPwYQBft7zLC47GY_4LNRg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "653380471807-eksntdpjl877eg736kid9qhf8easbcan.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

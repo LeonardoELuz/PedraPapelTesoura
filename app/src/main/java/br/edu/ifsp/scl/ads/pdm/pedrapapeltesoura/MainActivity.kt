@@ -3,12 +3,18 @@ package br.edu.ifsp.scl.ads.pdm.pedrapapeltesoura
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import br.edu.ifsp.scl.ads.pdm.pedrapapeltesoura.databinding.ActivityMainBinding
+import br.edu.ifsp.scl.ads.pdm.pedrapapeltesoura.model.ConfiguracaoFirebase
+import br.edu.ifsp.scl.ads.pdm.pedrapapeltesoura.model.Jogadores
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import java.util.*
 import kotlin.concurrent.schedule
 import kotlin.random.Random
@@ -18,10 +24,14 @@ class MainActivity : AppCompatActivity() {
     private lateinit var activityMainBinding: ActivityMainBinding
     private lateinit var geradorRandomico: Random
     private var configuracaoAuxiliar: Configuracao = Configuracao()
+    val firebaseDb = ConfiguracaoFirebase()
+
     private lateinit var settingsActivityLauncher: ActivityResultLauncher<Intent>
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
 
         activityMainBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(activityMainBinding.root)
@@ -250,6 +260,29 @@ class MainActivity : AppCompatActivity() {
                 }
 
         }
+
+//-----Firebase
+        //Gambiarrinha porque o firebase estava demorando para concluir o acesso
+        Timer().schedule(1000) {
+            runOnUiThread(Runnable {
+
+                //---Caso exista uma configuração no firebase
+                val configuracaoFirebase = firebaseDb.recuperaConfiguracao()
+
+                if (configuracaoFirebase != null) {
+                    Log.d("TAG", configuracaoFirebase.toString());
+                    activityMainBinding.computadorIm.visibility = View.GONE
+                    activityMainBinding.resultadoTv.visibility = View.GONE
+                    if (configuracaoFirebase == 1) {
+                        activityMainBinding.jogador2Ly.visibility = View.GONE
+                    } else if (configuracaoFirebase == 2) {
+                        activityMainBinding.jogador2Ly.visibility = View.VISIBLE
+                    }
+                    configuracaoAuxiliar.numeroJogadores = configuracaoFirebase
+                }
+            })
+        }
+
 
 //-----INTENTS E MENUS
 
