@@ -11,14 +11,9 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import br.edu.ifsp.scl.ads.pdm.pedrapapeltesoura.databinding.ActivityMainBinding
 import br.edu.ifsp.scl.ads.pdm.pedrapapeltesoura.model.ConfiguracaoFirebase
-import br.edu.ifsp.scl.ads.pdm.pedrapapeltesoura.model.Jogadores
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
 import java.util.*
 import kotlin.concurrent.schedule
 import kotlin.random.Random
-import kotlin.random.nextInt
 
 class MainActivity : AppCompatActivity() {
     private lateinit var activityMainBinding: ActivityMainBinding
@@ -38,17 +33,21 @@ class MainActivity : AppCompatActivity() {
 
         geradorRandomico = Random(System.currentTimeMillis())
 
+        //No clique do botão jogar
         activityMainBinding.jogarBt.setOnClickListener {
 
             val listaJogadas = resources.getStringArray(R.array.jogadas)
-            val jogadaAutomatica = listaJogadas.random()
             var jogada = ""
-            var jogada2 = ""
+            val jogadaAutomatica = listaJogadas.random()
+            var jogadaAutomatica2 = listaJogadas.random()
 
+
+            //Pega a jogada do usuário
             if (activityMainBinding.pedraBt.isChecked) jogada = "Pedra"
             else if (activityMainBinding.papelBt.isChecked) jogada = "Papel"
             else if (activityMainBinding.tesouraBt.isChecked) jogada = "Tesoura"
 
+            //Calcula o vencedor
             var resultado: Int = -1
             if (jogada == jogadaAutomatica) {
                 resultado = 0
@@ -81,126 +80,115 @@ class MainActivity : AppCompatActivity() {
             //Caso haja dois jogadores
             if (configuracaoAuxiliar.numeroJogadores == 2) {
 
-                //Pega a jogada do segundo computador
-                if (activityMainBinding.pedra2Bt.isChecked) {
-                    jogada2 = "Pedra"
-                }
-                else if (activityMainBinding.papel2Bt.isChecked) {
-                    jogada2 = "Papel"
-                }
-                else if (activityMainBinding.tesoura2Bt.isChecked) {
-                    jogada2 = "Tesoura"
-                }
-
                 //Partida empata quando todas as mãos saem em uma partida com mais de 2 jogadores
-                if (jogada == jogadaAutomatica && jogadaAutomatica == jogada2) {
+                if (jogada == jogadaAutomatica && jogadaAutomatica == jogadaAutomatica2) {
                     resultado = 0
                 }
-                else if (jogada == "Pedra" && jogadaAutomatica == "Papel" && jogada2 == "Tesoura") {
+                else if (jogada == "Pedra" && jogadaAutomatica == "Papel" && jogadaAutomatica2 == "Tesoura") {
                     resultado = 0
                 }
-                else if (jogada == "Pedra" && jogadaAutomatica == "Tesoura" && jogada2 == "Papel") {
+                else if (jogada == "Pedra" && jogadaAutomatica == "Tesoura" && jogadaAutomatica2 == "Papel") {
                     resultado = 0
                 }
-                else if (jogada == "Papel" && jogadaAutomatica == "Pedra" && jogada2 == "Tesoura") {
+                else if (jogada == "Papel" && jogadaAutomatica == "Pedra" && jogadaAutomatica2 == "Tesoura") {
                     resultado = 0
                 }
-                else if (jogada == "Papel" && jogadaAutomatica == "Tesoura" && jogada2 == "Pedra") {
+                else if (jogada == "Papel" && jogadaAutomatica == "Tesoura" && jogadaAutomatica2 == "Pedra") {
                     resultado = 0
                 }
-                else if (jogada == "Tesoura" && jogadaAutomatica == "Pedra" && jogada2 == "Papel") {
+                else if (jogada == "Tesoura" && jogadaAutomatica == "Pedra" && jogadaAutomatica2 == "Papel") {
                     resultado = 0
                 }
-                else if (jogada == "Tesoura" && jogadaAutomatica == "Papel" && jogada2 == "Pedra") {
+                else if (jogada == "Tesoura" && jogadaAutomatica == "Papel" && jogadaAutomatica2 == "Pedra") {
                     resultado = 0
                 }
 
                 //Caso o vencedor do primeiro turno seja o jogador 1
                 else if (resultado == 1) {
-                    if (jogada == jogada2) {
+                    if (jogada == jogadaAutomatica2) {
                         resultado = 0
                     }
                     else if (jogada == "Pedra") {
-                        if (jogada2 == "Papel") {
+                        if (jogadaAutomatica2 == "Papel") {
                             resultado = 3
                         }
-                        else if (jogada2 == "Tesoura") {
+                        else if (jogadaAutomatica2 == "Tesoura") {
                             resultado = 1
                         }
                     }
                     else if (jogada == "Papel") {
-                        if (jogada2 == "Tesoura") {
+                        if (jogadaAutomatica2 == "Tesoura") {
                             resultado = 3
                         }
-                        else if (jogada2 == "Pedra") {
+                        else if (jogadaAutomatica2 == "Pedra") {
                             resultado = 1
                         }
                     }
                     else if (jogada == "Tesoura") {
-                        if (jogada2 == "Pedra") {
+                        if (jogadaAutomatica2 == "Pedra") {
                             resultado = 3
                         }
-                        else if (jogada2 == "Papel") {
+                        else if (jogadaAutomatica2 == "Papel") {
                             resultado = 1
                         }
                     }
                 }
-                //Caso o vencedor seja o computador
+                //Caso o vencedor seja o computador 1
                 else if (resultado == 2) {
-                    if (jogadaAutomatica == jogada2) {
+                    if (jogadaAutomatica == jogadaAutomatica2) {
                         resultado = 0
                     }
                     else if (jogadaAutomatica == "Pedra") {
-                        if (jogada2 == "Papel") {
+                        if (jogadaAutomatica2 == "Papel") {
                             resultado = 3
                         }
-                        else if (jogada2 == "Tesoura") {
+                        else if (jogadaAutomatica2 == "Tesoura") {
                             resultado = 2
                         }
                     }
                     else if (jogadaAutomatica == "Papel") {
-                        if (jogada2 == "Tesoura") {
+                        if (jogadaAutomatica2 == "Tesoura") {
                             resultado = 3
                         }
-                        else if (jogada2 == "Pedra") {
+                        else if (jogadaAutomatica2 == "Pedra") {
                             resultado = 2
                         }
                     }
                     else if (jogadaAutomatica == "Tesoura") {
-                        if (jogada2 == "Pedra") {
+                        if (jogadaAutomatica2 == "Pedra") {
                             resultado = 3
                         }
-                        else if (jogada2 == "Papel") {
+                        else if (jogadaAutomatica2 == "Papel") {
                             resultado = 2
                         }
                     }
                 }
                 //Caso seja um empate
                 else if (resultado == 0){
-                    if (jogada == jogada2){
+                    if (jogada == jogadaAutomatica2){
                         resultado = 0
                     }
                     else if (jogada == "Pedra") {
-                        if (jogada2 == "Papel") {
+                        if (jogadaAutomatica2 == "Papel") {
                             resultado = 3
                         }
-                        else if (jogada2 == "Tesoura") {
+                        else if (jogadaAutomatica2 == "Tesoura") {
                             resultado = 0
                         }
                     }
                     else if (jogada == "Papel") {
-                        if (jogada2 == "Tesoura") {
+                        if (jogadaAutomatica2 == "Tesoura") {
                             resultado = 3
                         }
-                        else if (jogada2 == "Pedra") {
+                        else if (jogadaAutomatica2 == "Pedra") {
                             resultado = 0
                         }
                     }
                     else if (jogada == "Tesoura") {
-                        if (jogada2 == "Pedra") {
+                        if (jogadaAutomatica2 == "Pedra") {
                             resultado = 3
                         }
-                        else if (jogada2 == "Papel") {
+                        else if (jogadaAutomatica2 == "Papel") {
                             resultado = 0
                         }
                     }
@@ -208,60 +196,92 @@ class MainActivity : AppCompatActivity() {
             }
 
 
-//----JOGADA DO COMPUTADOR E RESULTADOS
-                val statusComputador = activityMainBinding.statusComputadorTv
-                val imagemComputador = activityMainBinding.computadorIm
-                val resultadoTv = activityMainBinding.resultadoTv
+//----MANIPULAÇÃO DO LAYOUT
+            //Exibindo as jogadas dos computadores
+            val statusComputador1 = activityMainBinding.statusComputador1Tv
+            val imagemComputador1 = activityMainBinding.computador1Im
 
-                //Reseta o layout
-                imagemComputador.visibility = View.GONE
-                resultadoTv.visibility = View.GONE
-                //Exibe o carregamento
-                statusComputador.visibility = View.VISIBLE
-                statusComputador.text = "Computador planejando..."
+            val statusComputador2 = activityMainBinding.statusComputador2Tv
+            val imagemComputador2 = activityMainBinding.computador2Im
+
+            val vencedor = activityMainBinding.vencedorTv
+
+            activityMainBinding.resultadoLy.visibility = View.GONE
+
+            //Reseta o layout do computador 1
+            imagemComputador1.visibility = View.GONE
+            //Exibe o carregamento do jogador 1
+            statusComputador1.visibility = View.VISIBLE
+            statusComputador1.text = "Computador 1 planejando..."
+
+            //Reseta o layout do computador 2
+            imagemComputador2.visibility = View.GONE
+            //Exibe o carregamento do jogador 1
+            statusComputador2.visibility = View.VISIBLE
+            statusComputador2.text = "Computador 2 planejando..."
 
 
-                Timer().schedule(2000) {
-                    runOnUiThread(Runnable {
+            Timer().schedule(2000) {
+                runOnUiThread(Runnable {
 
-                        //Retira o carregamento
-                        statusComputador.visibility = View.GONE
-                        //Insere a jogada do computador
-                        imagemComputador.visibility = View.VISIBLE
+                    //Retira o carregamento
+                    statusComputador1.visibility = View.GONE
+                    //Insere a jogada do computador
+                    imagemComputador1.visibility = View.VISIBLE
 
-                        if (jogadaAutomatica == "Pedra") {
-                            imagemComputador.setImageResource(
-                                resources.getIdentifier("pedra", "mipmap", packageName)
-                            )
-                        } else if (jogadaAutomatica == "Papel") {
-                            imagemComputador.setImageResource(
-                                resources.getIdentifier("papel", "mipmap", packageName)
-                            )
-                        } else if (jogadaAutomatica == "Tesoura") {
-                            imagemComputador.setImageResource(
-                                resources.getIdentifier("tesoura", "mipmap", packageName)
-                            )
-                        }
+                    if (jogadaAutomatica == "Pedra") {
+                        imagemComputador1.setImageResource(
+                            resources.getIdentifier("pedra", "mipmap", packageName)
+                        )
+                    } else if (jogadaAutomatica == "Papel") {
+                        imagemComputador1.setImageResource(
+                            resources.getIdentifier("papel", "mipmap", packageName)
+                        )
+                    } else if (jogadaAutomatica == "Tesoura") {
+                        imagemComputador1.setImageResource(
+                            resources.getIdentifier("tesoura", "mipmap", packageName)
+                        )
+                    }
 
-                        resultadoTv.visibility = View.VISIBLE
+                    //Retira o carregamento
+                    statusComputador2.visibility = View.GONE
+                    //Insere a jogada do computador
+                    imagemComputador2.visibility = View.VISIBLE
 
-                        if (resultado == 0) {
-                            resultadoTv.text = "Partida empatada!"
-                        } else if (resultado == 1) {
-                            resultadoTv.text = "Jogador 1 venceu!!"
-                        } else if (resultado == 2) {
-                            resultadoTv.text = "Computador venceu!"
-                        } else if (resultado == 3) {
-                            resultadoTv.text = "Jogador 2 venceu!"
-                        }
+                    if (jogadaAutomatica2 == "Pedra") {
+                        imagemComputador2.setImageResource(
+                            resources.getIdentifier("pedra", "mipmap", packageName)
+                        )
+                    } else if (jogadaAutomatica2 == "Papel") {
+                        imagemComputador2.setImageResource(
+                            resources.getIdentifier("papel", "mipmap", packageName)
+                        )
+                    } else if (jogadaAutomatica2 == "Tesoura") {
+                        imagemComputador2.setImageResource(
+                            resources.getIdentifier("tesoura", "mipmap", packageName)
+                        )
+                    }
 
-                    })
 
-                }
+                   activityMainBinding.resultadoLy.visibility = View.VISIBLE
+
+                    if (resultado == 0) {
+                        vencedor.text = "Partida empatada!"
+                    } else if (resultado == 1) {
+                        vencedor.text = "Jogador venceu!!"
+                    } else if (resultado == 2) {
+                        vencedor.text = "Computador 1 venceu!"
+                    } else if (resultado == 3) {
+                        vencedor.text = "Computador 2 venceu!"
+                    }
+
+                })
+
+            }
 
         }
 
-//-----Firebase
+        //-----Manipulando o layout de acordo com o firebase
         //Gambiarrinha porque o firebase estava demorando para concluir o acesso
         Timer().schedule(1000) {
             runOnUiThread(Runnable {
@@ -270,22 +290,24 @@ class MainActivity : AppCompatActivity() {
                 val configuracaoFirebase = firebaseDb.recuperaConfiguracao()
 
                 if (configuracaoFirebase != null) {
-                    Log.d("TAG", configuracaoFirebase.toString());
-                    activityMainBinding.computadorIm.visibility = View.GONE
-                    activityMainBinding.resultadoTv.visibility = View.GONE
+                    //Reseta o layout
+                    activityMainBinding.resultadoLy.visibility = View.GONE
+                    activityMainBinding.computador1Im.visibility = View.INVISIBLE
+                    activityMainBinding.statusComputador1Tv.text = "Aguardando jogador..."
+                    activityMainBinding.computador2Im.visibility = View.INVISIBLE
+                    activityMainBinding.statusComputador2Tv.text = "Aguardando jogador..."
+
                     if (configuracaoFirebase == 1) {
-                        activityMainBinding.jogador2Ly.visibility = View.GONE
+                        activityMainBinding.computador2Ly.visibility = View.GONE
                     } else if (configuracaoFirebase == 2) {
-                        activityMainBinding.jogador2Ly.visibility = View.VISIBLE
+                        activityMainBinding.computador2Ly.visibility = View.VISIBLE
                     }
                     configuracaoAuxiliar.numeroJogadores = configuracaoFirebase
                 }
             })
         }
 
-
-//-----INTENTS E MENUS
-
+            //-----Manipulando o layout de acordo com as configurações escolhidas pelo usuário
             settingsActivityLauncher =
                 registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                     if (result.resultCode == RESULT_OK) {
@@ -293,12 +315,18 @@ class MainActivity : AppCompatActivity() {
                             val configuracao: Configuracao? =
                                 result.data?.getParcelableExtra<Configuracao>(Intent.EXTRA_USER)
                             if (configuracao != null) {
-                                activityMainBinding.computadorIm.visibility = View.GONE
-                                activityMainBinding.resultadoTv.visibility = View.GONE
+                                //Reseta o layout
+                                activityMainBinding.resultadoLy.visibility = View.GONE
+                                activityMainBinding.computador1Im.visibility = View.INVISIBLE
+                                activityMainBinding.statusComputador1Tv.visibility = View.VISIBLE
+                                activityMainBinding.statusComputador2Tv.visibility = View.VISIBLE
+                                activityMainBinding.statusComputador1Tv.text = "Aguardando jogador..."
+                                activityMainBinding.computador2Im.visibility = View.INVISIBLE
+                                activityMainBinding.statusComputador2Tv.text = "Aguardando jogador..."
                                 if (configuracao.numeroJogadores == 1) {
-                                    activityMainBinding.jogador2Ly.visibility = View.GONE
+                                    activityMainBinding.computador2Ly.visibility = View.GONE
                                 } else if (configuracao.numeroJogadores == 2) {
-                                    activityMainBinding.jogador2Ly.visibility = View.VISIBLE
+                                    activityMainBinding.computador2Ly.visibility = View.VISIBLE
                                 }
                                 configuracaoAuxiliar = configuracao
                             }

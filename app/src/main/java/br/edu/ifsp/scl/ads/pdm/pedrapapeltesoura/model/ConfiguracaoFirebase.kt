@@ -17,7 +17,8 @@ class ConfiguracaoFirebase {
     private var flag: Boolean = false
 
     init {
-
+        /* Utilizei esta forma alternativa de construir o listener porque estava tendo problemas
+        para buscar a configuração na iniciação do aplicativo */
         configuracaoDatabase.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val value = snapshot.getValue<Int>()
@@ -32,7 +33,6 @@ class ConfiguracaoFirebase {
             override fun onCancelled(error: DatabaseError) {
                 Log.w(TAG, "Failed to read value.", error.toException())
             }
-
 
         })
     }
